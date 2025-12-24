@@ -3,6 +3,7 @@ import asyncio
 from spade.message import Message
 from vlagentic.agent.severity_agent import SeverityAgent
 
+
 async def main():
     # Start the agent
     agent = SeverityAgent("severity@localhost", "password")
@@ -19,5 +20,6 @@ async def main():
 
     # Stop agent
     await agent.stop()
+
 
 asyncio.run(main())

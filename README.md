@@ -8,6 +8,8 @@ Install Ollama
 ```bash
 curl -fsSL https://ollama.ai/install.sh | sh
 ollama pull llama3.1:8b
+ollama pull qwen2.5:7b
+ollama serve
 ```
 
 ```bash
@@ -32,7 +34,7 @@ Password: password
 ```bash
 # python agent.py
 
-scripts/run_agent.py
+scripts/run_expert.py
 ```
 
 It will be registered to the registry and presence notification system.
