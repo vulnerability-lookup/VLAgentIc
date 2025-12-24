@@ -5,33 +5,38 @@ VLAI is Agentic!
 
 ## Principle
 
+```text
 VLAgentIcAgent
  ├── Reasoning (LLM via spade-llm, Ollama or API)
  ├── Tools
  │    └── SeverityClassifierTool (RoBERTa)
  |    └── CVSS normalizer tool (not yet implemented)
  └── Actions / messages
+ ```
 
-
+```text
 You: "What is the severity of the vulnerability described ..."
 LLM: "This looks like a vulnerability description.
       I should classify severity."
 → calls severity_classifier tool
 → receives result
 → explains or forwards
+```
 
 Tools are assigned to an agent. An agent can use one or multiple tools and should clearly explain their functionality.
 Communications via XMPP/FIPA.
 
 **Mental model:**
 
+```text
 Message →
   LLM decides: classify / respond →
     Tool call →
       LLM explains →
         Reply
+```
 
-
+```text
 Agent receives vulnerability description
 ↓
 Agent decides: "I should classify severity"
@@ -41,7 +46,7 @@ Calls VLAI classifier tool
 Receives severity + confidence
 ↓
 Agent responds / logs / forwards
-
+```
 
 ## Test
 
