@@ -1,17 +1,70 @@
 # VLAgentIc
 
-VLAI is Agentic!
+The concept of an AI agent—combining models, tools, and orchestration logic—has become fairly standardized over the past year.  
+Common patterns and frameworks for building such agents are also emerging.  
+
+![VLAI is Agentic!](docs/VLAIgentIc.png)
+
+While AI agents are becoming more common, **VLAgentIc** explores a unique approach in AI-assisted cybersecurity. Its agents communicate over XMPP, benefiting from behaviours for concurrent tasks, mailboxes for asynchronous messaging, and built-in presence and discovery support.
 
 
-## Principle
+## Features
+
+- Modular AI agents combining reasoning (LLM) and tools
+- Tool orchestration with clear mental models
+- XMPP-based communication between agents
+- Integration with the Vulnerability-Lookup API and custom classifiers (e.g., CWE and severity classification)
+
+
+## Architecture
+
+```mermaid
+graph LR
+    Ch[Chat Agent] <--> A[LLMAgent]
+    A --> C[ContextManager]
+    A --> D[LLMProvider]
+    A --> E[LLMTool]
+    D --> F[OpenAI/Ollama/etc]
+    E --> I[Human-in-the-Loop]
+    E --> T1[VLAI Severity - Text Classification]
+    E --> T2[VLAI CWE - Text Classification]
+    E --> T3[Vulnerability-Lookup API]
+    E --> J[MCP]
+    J --> K[STDIO]
+    J --> L[HTTP Streaming]
+```
+
+Human-in-the-loop is still in work and will be probably linked to the Vulnerability-Lookup API tool.
+
+
+**Component Overview:**
+
+
+| Component          | Description                                                                        |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| **ChatAgent**      | Entry point optionnaly with guardrails filtering.                                  |
+| **LLMAgent**       | Core agent that reasons using a language model.                                    |
+| **ContextManager** | Tracks conversation state and memory.                                              |
+| **LLMProvider**    | Connects to models (OpenAI, Ollama, Qwen, etc.).                                   |
+| **LLMTool**        | Performs actions such as classification, API queries, or human-in-the-loop checks. |
+| **MCP**            | Multi-channel publisher for STDIO or HTTP streaming outputs.                       |
+
+The **LLMAgent** (Qwen) leverages the
+[VLAI Severity classification](https://huggingface.co/CIRCL/vulnerability-severity-classification-roberta-base) and
+[VLAI CWE classification](https://huggingface.co/CIRCL/cwe-parent-vulnerability-classification-roberta-base) models as integrated tools, enabling automated vulnerability severity assessment and CWE categorization within its reasoning workflow.
+
+
+
+## Agent Principle
 
 ```text
 VLAgentIcAgent
  ├── Reasoning (LLM via spade-llm, Ollama or API)
  ├── Tools
- │    └── SeverityClassifierTool (RoBERTa)
- |    └── CVSS normalizer tool (not yet implemented)
- └── Actions / messages
+ │    ├── SeverityClassifierTool (RoBERTa)
+ │    ├── CVSS normalizer tool (planned)
+ │    └── Other extensible tools
+ └── Actions / Messages
  ```
 
 ```text
@@ -23,30 +76,9 @@ LLM: "This looks like a vulnerability description.
 → explains or forwards
 ```
 
-Tools are assigned to an agent. An agent can use one or multiple tools and should clearly explain their functionality.
+Tools are assigned to an (LLM) agent. An agent can use one or multiple tools and should clearly explain their functionality.
 Communications via XMPP/FIPA.
 
-**Mental model:**
-
-```text
-Message →
-  LLM decides: classify / respond →
-    Tool call →
-      LLM explains →
-        Reply
-```
-
-```text
-Agent receives vulnerability description
-↓
-Agent decides: "I should classify severity"
-↓
-Calls VLAI classifier tool
-↓
-Receives severity + confidence
-↓
-Agent responds / logs / forwards
-```
 
 ## Test
 
@@ -81,7 +113,6 @@ Password: password
 ```
 
 ```bash
-
 scripts/run_all.py
 ```
 

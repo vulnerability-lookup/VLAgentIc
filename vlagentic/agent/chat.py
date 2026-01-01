@@ -14,7 +14,7 @@ console = Console()
 def display_response(message: str, sender: str = "Tool Assistant", **metadata):
     """
     Display agent messages in rich panels, with optional metadata.
-    Confidence values are color-coded automatically.
+    Confidence values are color-coded.
     """
 
     # Header with sender
@@ -26,9 +26,10 @@ def display_response(message: str, sender: str = "Tool Assistant", **metadata):
     # Metadata panel
     metadata_panel = None
     if metadata:
-        table = Table.grid(expand=True)
-        table.add_column(justify="right", style="bold magenta")
-        table.add_column(justify="left", style="white")
+        # Use a proper Table instead of Table.grid
+        table = Table(show_header=False, box=box.SIMPLE, expand=True)
+        table.add_column("Key", style="bold magenta", justify="right")
+        table.add_column("Value", style="white", justify="left")
 
         for key, value in metadata.items():
             # Pretty-print JSON structures
@@ -45,11 +46,12 @@ def display_response(message: str, sender: str = "Tool Assistant", **metadata):
                         style = "bold yellow"
                     else:
                         style = "bold red"
-                    value = Text(f"{value:.3f}", style=style)
+                    value = Text(f"{conf:.3f}", style=style)
                 except Exception:
-                    pass  # fallback to default if not float
+                    pass
 
-            table.add_row(str(key), str(value))
+            # Add to table
+            table.add_row(str(key), value if isinstance(value, Text) else str(value))
 
         metadata_panel = Panel(table, title="📌 Metadata", box=box.ROUNDED, style="dim")
 
@@ -64,6 +66,8 @@ def display_response(message: str, sender: str = "Tool Assistant", **metadata):
         )
     else:
         console.print(Panel(message_text, title=header, box=box.ROUNDED, style="green"))
+
+
 
 
 def init_chat_agent(xmpp_server):
