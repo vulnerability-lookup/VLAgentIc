@@ -109,15 +109,29 @@ Alternatively (maybe even better, and it's what had been tested so far), use Pro
 case create the agent's password:
 
 ```bash
-$ sudo prosodyctl adduser severity_agent@localhost
-Password: password
+$ sudo prosodyctl adduser tool_assistant@localhost
+$ sudo prosodyctl adduser user@localhost
+$ sudo prosodyctl adduser coordinator@localhost
 ```
 
 ```bash
-scripts/run_all.py
+$ cd VLAgentIc/
+$ poetry install
+$ poetry shell
+$ vlagentic
+Device set to use cpu
+XMPP server domain (default: localhost): 
+LLM agent password: 
+Chat agent password: 
+✅ Agents started!
+🔧 Available tools:
+• classify_severity
+• classify_cwe
+...
+...
 ```
 
-It will be registered to the registry and presence notification system.
+Agents be registered to the registry and presence notification system.
 
 Monitor incoming messages:
 
