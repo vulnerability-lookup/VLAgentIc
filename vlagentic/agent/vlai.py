@@ -4,7 +4,7 @@ from vlagentic.agent.llm import get_llm_provider
 
 from vlagentic.tools.current_time import current_time_tool
 from vlagentic.tools.cwe import cwe_tool
-from vlagentic.tools.math import math_tool
+from vlagentic.tools.calculate import math_tool
 from vlagentic.tools.severity import severity_tool
 from vlagentic.tools.weather import weather_tool
 

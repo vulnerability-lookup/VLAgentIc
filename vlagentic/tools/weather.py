@@ -1,17 +1,14 @@
+import requests
 from spade_llm import LLMTool
 
 
 def get_weather(city: str) -> str:
-    weather_data = {
-        "madrid": "22°C, sunny",
-        "london": "15°C, cloudy",
-        "new york": "18°C, rainy",
-        "tokyo": "25°C, clear",
-        "paris": "19°C, partly cloudy",
-        "barcelona": "24°C, sunny",
-        "luxembourg": "2.3°C, cloudy",
-    }
-    return weather_data.get(city.lower(), f"No weather data available for {city}")
+    url = f"https://wttr.in/{city}?format=3"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.text.strip()
+    else:
+        return f"Weather data not available for {city}"
 
 
 weather_tool = LLMTool(
@@ -29,3 +26,6 @@ weather_tool = LLMTool(
     },
     func=get_weather,
 )
+
+if __name__ == "__main__":
+    print(get_weather("Luxembourg"))
