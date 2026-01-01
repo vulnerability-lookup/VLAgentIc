@@ -34,7 +34,8 @@ graph LR
     J --> L[HTTP Streaming]
 ```
 
-Human-in-the-loop is still in work and will be probably linked to the Vulnerability-Lookup API tool.
+Human-in-the-loop is still in work and will be probably linked to the Vulnerability-Lookup API tool.  
+The LLM provider can be configured in ``vlagentic.agent.llm:get_llm_provider()``. The default is ``qwen2.5:7b``.
 
 
 **Component Overview:**
