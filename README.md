@@ -3,8 +3,6 @@
 The concept of an AI agent—combining models, tools, and orchestration logic—has become fairly standardized over the past year.  
 Common patterns and frameworks for building such agents are also emerging.  
 
-![VLAI is Agentic!](docs/VLAIgentIc.png)
-
 While AI agents are becoming more common, **VLAgentIc** explores a unique approach in AI-assisted cybersecurity. Its agents communicate over XMPP, benefiting from behaviours for concurrent tasks, mailboxes for asynchronous messaging, and built-in presence and discovery support.
 
 
@@ -133,9 +131,6 @@ Chat agent password:
 
 Agents be registered to the registry and presence notification system.
 
-Monitor incoming messages:
-
-![alt text](docs/agent-monitoring.png)
 
 
 
