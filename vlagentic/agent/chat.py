@@ -68,13 +68,14 @@ def display_response(message: str, sender: str = "Tool Assistant", **metadata):
         console.print(Panel(message_text, title=header, box=box.ROUNDED, style="green"))
 
 
+def init_chat_agent(xmpp_server, agent_name="chat_agent"):
+    agent_name = input("Agent name (default: chat_agent): ") or agent_name
 
-
-def init_chat_agent(xmpp_server):
     chat_agent = ChatAgent(
-        jid=f"user@{xmpp_server}",
+        jid=f"{agent_name}@{xmpp_server}",
         password=getpass.getpass("Chat agent password: "),
         target_agent_jid=f"tool_assistant@{xmpp_server}",
         display_callback=display_response,
     )
+
     return chat_agent

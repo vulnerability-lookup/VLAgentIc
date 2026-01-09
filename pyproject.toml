@@ -30,6 +30,8 @@ Repository = "https://github.com/vulnerability-lookup/VLAgentIc"
 
 [project.scripts]
 vlagentic = "bin.run:main"
+vlagentic-llm = "bin.run_llm:main"
+vlagentic-chat = "bin.run_chat:main"
 
 
 [tool.poetry]

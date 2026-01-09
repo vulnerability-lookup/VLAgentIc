@@ -52,12 +52,21 @@ system_prompt = (
 )
 
 
-def init_llm_agent(xmpp_server):
+def init_llm_agent(xmpp_server, agent_name="tool_assistant", llm_provider="qwen2.5:7b"):
+    """
+    Initializes the LLM Agent.
+
+    :param xmpp_server: Address of the XMPP server (default: localhost)
+    """
+    agent_name = input("Agent name (default: tool_assistant): ") or agent_name
+    llm_provider = input("LLM provider to use (default: qwen2.5:7b): ") or llm_provider
+
     llm_agent = LLMAgent(
-        jid=f"tool_assistant@{xmpp_server}",
+        jid=f"{agent_name}@{xmpp_server}",
         password=getpass.getpass("LLM agent password: "),
-        provider=get_llm_provider(),
+        provider=get_llm_provider(model=llm_provider),
         system_prompt=system_prompt,
         tools=tools,
     )
+
     return llm_agent
